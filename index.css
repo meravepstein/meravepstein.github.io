@@ -10,6 +10,7 @@
   list-style: none;
   margin: 4px;
   padding: 70px;
+  text-align: center;
 }
 .menu li {
   display: inline-block;
