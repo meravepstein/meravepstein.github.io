@@ -1,11 +1,18 @@
-@font-face { font-family: Arimo-Italic-VariableFont_wght; src: url('assets/Arimo-Italic-VariableFont_wght.ttf'); } 
+@font-face { 
+  font-family: 'Arimo-Italic'; 
+  src: url('./assets/fonts/Arimo-Italic-VariableFont_wght.ttf') format('truetype'),
+       url('./assets/fonts/Arimo-Italic.woff') format('woff');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+} 
 
-h1 {
-  font-family: Arimo-Italic-VariableFont_wght;
+#reel-description {
+  font-family: 'Arimo-Italic';
 }
 
-a {
-  font-family: Arimo-Italic-VariableFont_wght;
+.links {
+  font-family: 'Arimo-Italic';
 }
 
 .header-img {
@@ -32,7 +39,6 @@ a {
   text-transform: uppercase;
   font-size: 14px;
   font-weight: bold;
-  font-family: 'Lato';
 }
 .menu a:hover {
   text-decoration: underline;
