@@ -1,3 +1,13 @@
+@font-face { font-family: Arimo-Italic-VariableFont_wght; src: url('assets/Arimo-Italic-VariableFont_wght.ttf'); } 
+
+h1 {
+  font-family: Arimo-Italic-VariableFont_wght;
+}
+
+a {
+  font-family: Arimo-Italic-VariableFont_wght;
+}
+
 .header-img {
   float: left;
   background: url('./assets/logo/logo 2.gif') no-repeat center center;
