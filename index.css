@@ -1,18 +1,18 @@
 @font-face { 
-  font-family: 'Arimo-Italic'; 
-  src: url('./assets/fonts/Arimo-Italic-VariableFont_wght.ttf') format('truetype'),
-       url('./assets/fonts/Arimo-Italic.woff') format('woff');
+  font-family: 'Arimo'; 
+  src: url('./assets/fonts/Arimo-VariableFont_wght.ttf') format('truetype'),
+       url('./assets/fonts/Arimo-Regular.woff') format('woff');
   font-weight: normal;
   font-style: italic;
   font-display: swap;
 } 
 
 #reel-description {
-  font-family: 'Arimo-Italic';
+  font-family: 'Arimo';
 }
 
 .links {
-  font-family: 'Arimo-Italic';
+  font-family: 'Arimo';
 }
 
 .header-img {
