@@ -22,6 +22,7 @@
 .captions {
   font-family: 'Arimo';
   font-size: 16px;
+  max-width: 900px;
 }
 
 .links {
