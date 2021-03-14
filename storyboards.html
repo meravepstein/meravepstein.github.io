@@ -199,8 +199,8 @@
             </div>
             <br>
 
-            <a class="prev" onclick="plusSlides2(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides2(1)">&#10095;</a>
+            <a class="prev" onclick="plusSlides1(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides1(1)">&#10095;</a>
         </div>
         <br>
         </div>
@@ -294,8 +294,8 @@
             </div>
             <br>
 
-            <a class="prev" onclick="plusSlides1(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides1(1)">&#10095;</a>
+            <a class="prev" onclick="plusSlides2(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides2(1)">&#10095;</a>
           </div>
           <br>
         </div>
@@ -318,7 +318,7 @@
 
         function showSlides1(n) {
             var i;
-            var slides = document.getElementsByClassName("diamond-slides");
+            var slides = document.getElementsByClassName("pair-slides");
             if (n > slides.length) {slideIndex1 = 1} 
             if (n < 1) {slideIndex1 = slides.length}
             for (i = 0; i < slides.length; i++) {
@@ -329,7 +329,7 @@
 
         function showSlides2(n) {
             var i;
-            var slides = document.getElementsByClassName("pair-slides");
+            var slides = document.getElementsByClassName("diamond-slides");
             if (n > slides.length) {slideIndex2 = 1} 
             if (n < 1) {slideIndex2 = slides.length}
             for (i = 0; i < slides.length; i++) {
