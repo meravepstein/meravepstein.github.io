@@ -302,9 +302,9 @@
 
     <script>
         var slideIndex1 = 1;
+        var slideIndex2 = 1;
         showSlides1(slideIndex1);
 
-        var slideIndex2 = 1;
         showSlides2(slideIndex2);
 
         // Next/previous controls
@@ -320,7 +320,7 @@
             var i;
             var slides = document.getElementsByClassName("diamond-slides");
             if (n > slides.length) {slideIndex1 = 1} 
-            if (n < 1) {slideIndex = slides.length}
+            if (n < 1) {slideIndex1 = slides.length}
             for (i = 0; i < slides.length; i++) {
                 slides[i].style.display = "none"; 
             }
@@ -331,7 +331,7 @@
             var i;
             var slides = document.getElementsByClassName("pair-slides");
             if (n > slides.length) {slideIndex2 = 1} 
-            if (n < 1) {slideIndex = slides.length}
+            if (n < 1) {slideIndex2 = slides.length}
             for (i = 0; i < slides.length; i++) {
                 slides[i].style.display = "none"; 
             }
