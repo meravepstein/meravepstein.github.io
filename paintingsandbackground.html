@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/favicon.png">
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="paintings.css">
     <title>Oaubtubgs & Backgrounds</title>
@@ -27,22 +28,84 @@
     <center>
         <div class="row">
             <div class="column">
-                <img src="assets/paintings:backgrounds/1. orange still life.png">
-                <img src="assets/paintings:backgrounds/2. concept art.png">
-                <img src="assets/paintings:backgrounds/3. grocery ext.png">
-                <img src="assets/paintings:backgrounds/4. nyc street.png">
+                <img src="assets/paintings:backgrounds/1. orange still life.png" onclick="openModal();currentSlide(1)" class="hover-shadow">
+                <img src="assets/paintings:backgrounds/2. concept art.png" onclick="openModal();currentSlide(2)" class="hover-shadow">
+                <img src="assets/paintings:backgrounds/3. grocery ext.png" onclick="openModal();currentSlide(3)" class="hover-shadow">
+                <img src="assets/paintings:backgrounds/4. nyc street.png" onclick="openModal();currentSlide(4)" class="hover-shadow">
             </div>
             <div class="column">
-                <img src="assets/paintings:backgrounds/5. street at night bg.png">
-                <img src="assets/paintings:backgrounds/6. farmhouse long shot.png">
-                <img src="assets/paintings:backgrounds/7. ghibli background.png">
+                <img src="assets/paintings:backgrounds/5. street at night bg.png" onclick="openModal();currentSlide(5)" class="hover-shadow">
+                <img src="assets/paintings:backgrounds/6. farmhouse long shot.png" onclick="openModal();currentSlide(6)" class="hover-shadow">
+                <img src="assets/paintings:backgrounds/7. ghibli background.png" onclick="openModal();currentSlide(7)" class="hover-shadow">
             </div>
             <div class="column">
-                <img src="assets/paintings:backgrounds/8. grocery int.png">
-                <img src="assets/paintings:backgrounds/9. lighthouse.png">
-                <img src="assets/paintings:backgrounds/10. pink house .png">
+                <img src="assets/paintings:backgrounds/8. grocery int.png" onclick="openModal();currentSlide(8)" class="hover-shadow">
+                <img src="assets/paintings:backgrounds/9. lighthouse.png" onclick="openModal();currentSlide(9)" class="hover-shadow">
+                <img src="assets/paintings:backgrounds/10. pink house .png" onclick="openModal();currentSlide(10)" class="hover-shadow">
             </div>
         </div>
     </center>
+    <div id="painting-modal" class="modal">
+        <span class="close cursor" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <div class="painting-slides">
+                <img src="assets/paintings:backgrounds/1. orange still life.png" width="100%">
+            </div>
+            <div class="painting-slides">
+                <img src="assets/paintings:backgrounds/2. concept art.png" width="100%">
+            </div>
+            <div class="painting-slides">
+                <img src="assets/paintings:backgrounds/3. grocery ext.png" width="100%">
+            </div>
+            <div class="painting-slides">
+                <img src="assets/paintings:backgrounds/4. nyc street.png" width="100%">
+            </div>
+            <div class="painting-slides">
+                <img src="assets/paintings:backgrounds/5. street at night bg.png" width="100%">
+            </div>
+            <div class="painting-slides">
+                <img src="assets/paintings:backgrounds/6. farmhouse long shot.png" width="100%">
+            </div>
+            <div class="painting-slides">
+                <img src="assets/paintings:backgrounds/7. ghibli background.png" width="100%">
+            </div>
+            <div class="painting-slides">
+                <img src="assets/paintings:backgrounds/8. grocery int.png" width="100%">
+            </div>
+            <div class="painting-slides">
+                <img src="assets/paintings:backgrounds/9. lighthouse.png" width="100%">
+            </div>
+            <div class="painting-slides">
+                <img src="assets/paintings:backgrounds/10. pink house .png" width="100%">
+            </div>
+        </div>
+    </div>
+    <script>
+        function openModal() {
+            document.getElementById("painting-modal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("painting-modal").style.display = "none";
+        }
+
+        var slideIndex = 1;
+        showSlides(slideIndex);
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n){
+            var i;
+            var slides = document.getElementsByClassName("painting-slides");
+            if(n > slides.length) { slideIndex = 1 }
+            else if (n < 1) { slideIndex = slides.length }
+            for(i = 0; i < slides.length; i++){
+                slides[i].style.display = "none";
+            }
+            slides[slideIndex-1].style.display = "block";
+        }
+    </script>
 </body>
 </html>

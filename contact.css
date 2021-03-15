@@ -1,0 +1,37 @@
+@font-face { 
+    font-family: 'Arimo'; 
+    src: url('./assets/fonts/Arimo-VariableFont_wght.ttf') format('truetype'),
+         url('./assets/fonts/Arimo-Regular.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+  }
+
+.contact {
+    font-family: Arimo;
+    font-size: 16px;
+}
+
+.thanks-img {
+    width: 60%;
+}
+
+.mail-img {
+    width: 5%;
+}
+
+.instagram-img {
+    width: 5%;
+}
+
+.mail-insta-link {
+    font-family: Arimo;
+    color: black;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.mail-insta-link:hover {
+    text-decoration: underline;
+}
