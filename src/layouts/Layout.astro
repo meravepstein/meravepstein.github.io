@@ -1,5 +1,11 @@
 ---
 import Navbar from "../components/Navbar.astro";
+
+interface Props {
+  pageTitle: string;
+}
+
+const { pageTitle } = Astro.props;
 ---
 
 <!doctype html>
@@ -13,7 +19,7 @@ import Navbar from "../components/Navbar.astro";
   </head>
   <body>
     <div class="flex">
-      <Navbar />
+      <Navbar pageTitle={pageTitle} />
       <main class="mx-auto h-screen w-screen">
         <slot />
       </main>

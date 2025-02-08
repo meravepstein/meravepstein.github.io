@@ -1,44 +1,158 @@
 ---
 import MeravGif from "../assets/logo.gif";
-// pl-[178px]
+import List from "phosphor-astro/List.astro";
+import X from "phosphor-astro/X.astro";
+
+interface Props {
+  pageTitle: string;
+}
+
+const { pageTitle } = Astro.props;
 ---
 
-<aside class="sticky top-0 h-full max-w-fit ml-4 text-center">
+<div class="sm:hidden z-10 flex flex-row fixed bg-[#F9F9F9] w-screen">
+  <div class="flex justify-center items-center">
+    <List id="open" class="cursor-pointer" width={50} height={50} />
+    <X id="close" class="cursor-pointer hidden" width={50} height={50} />
+  </div>
+  <div class="flex items-center justify-center mx-auto relative">
+    <img src={MeravGif.src} class="h-24 w-auto" />
+  </div>
+</div>
+<aside
+  id="sideNav"
+  class="sticky top-0 h-full max-w-fit ml-4 text-center max-sm:hidden"
+>
   <ul class="flex flex-col gap-1">
-    <li class="list-none flex justify-center items-center">
+    <li id="hero" class="list-none flex justify-center items-center">
       <a href="/"><img src={MeravGif.src} class="h-48 w-auto" /></a>
     </li>
-    <li class="list-none text-xl">
+    <li
+      class:list={[
+        { "font-bold": pageTitle === "animation" },
+        "list-none",
+        "text-xl",
+        "italic",
+      ]}
+    >
       <a href="/animation/">ANIMATION</a>
     </li>
-    <li class="list-none text-xl">
+    <li
+      class:list={[
+        { "font-bold": pageTitle === "editing" },
+        "list-none",
+        "text-xl",
+        "italic",
+      ]}
+    >
       <a href="/editing/">EDITING</a>
     </li>
-    <li class="list-none text-xl">
+    <li
+      class:list={[
+        { "font-bold": pageTitle === "storyboarding" },
+        "list-none",
+        "text-xl",
+        "italic",
+      ]}
+    >
       <a href="/storyboarding/">STORYBOARDING</a>
     </li>
-    <li class="list-none text-xl">
+    <li
+      class:list={[
+        { "font-bold": pageTitle === "character/prop design" },
+        "list-none",
+        "text-xl",
+        "italic",
+      ]}
+    >
       <a href="/character_prop_design/">CHARACTER/PROP DESIGN</a>
     </li>
-    <li class="list-none text-xl">
+    <li
+      class:list={[
+        { "font-bold": pageTitle === "paintings & backgrounds" },
+        "list-none",
+        "text-xl",
+        "italic",
+      ]}
+    >
       <a href="/paintings_backgrounds/">PAINTINGS & BACKGROUNDS</a>
     </li>
-    <li class="list-none text-xl">
+    <li
+      class:list={[
+        { "font-bold": pageTitle === "sketchbook" },
+        "list-none",
+        "text-xl",
+        "italic",
+      ]}
+    >
       <a href="/sketchbook/">SKETCHBOOK</a>
     </li>
-    <li class="list-none text-xl">
+    <li
+      class:list={[
+        { "font-bold": pageTitle === "stained glass" },
+        "list-none",
+        "text-xl",
+        "italic",
+      ]}
+    >
       <a href="/stained_glass/">STAINED GLASS</a>
     </li>
     <br />
     <br />
-    <li class="list-none text-xl">
-      <a href="/about/">ABOUT</a>
+    <li
+      class:list={[
+        { "font-bold": pageTitle === "about" },
+        "list-none",
+        "text-xl",
+        "italic",
+      ]}
+    >
+      <a href="/">ABOUT</a>
     </li>
-    <li class="list-none text-xl">
+    <li
+      class:list={[
+        { "font-bold": pageTitle === "contact" },
+        "list-none",
+        "text-xl",
+        "italic",
+      ]}
+    >
       <a href="/contact/">CONTACT</a>
     </li>
-    <li class="list-none text-xl">
+    <li class="list-none text-xl italic" }>
       <a href="/public/CV.pdf">CV</a>
     </li>
   </ul>
 </aside>
+
+<script>
+  const openButton = document.querySelector("#open");
+  const closeButton = document.querySelector("#close");
+
+  openButton?.addEventListener("click", () => openNavbar());
+  closeButton?.addEventListener("click", () => closeNavbar());
+
+  function openNavbar() {
+    const heroImage = document.querySelector("#hero");
+    heroImage?.classList.add("hidden");
+
+    const sideNav = document.querySelector("#sideNav");
+    sideNav?.classList.remove("max-sm:hidden");
+    sideNav?.classList.add("mt-24");
+
+    openButton?.classList.add("hidden");
+    closeButton?.classList.remove("hidden");
+  }
+
+  function closeNavbar() {
+    const heroImage = document.querySelector("#hero");
+    heroImage?.classList.remove("hidden");
+
+    const sideNav = document.querySelector("#sideNav");
+    sideNav?.classList.add("max-sm:hidden");
+    sideNav?.classList.remove("mt-24");
+
+    closeButton?.classList.add("hidden");
+    openButton?.classList.remove("hidden");
+  }
+</script>

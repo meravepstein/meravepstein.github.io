@@ -11,8 +11,10 @@ let resolvedImages = await Promise.all(
 );
 ---
 
-<Layout>
-  <div class="mx-auto p-8 sm:columns-1 md:columns-2 lg:columns-3">
+<Layout pageTitle="sketchbook">
+  <div
+    class="abs mx-auto p-8 sm:columns-1 md:columns-2 lg:columns-3 max-sm:pt-24"
+  >
     {
       resolvedImages.map((image) => (
         <Image
@@ -30,5 +32,4 @@ let resolvedImages = await Promise.all(
       ))
     }
   </div>
-  <div class="absolute"></div>
 </Layout>
