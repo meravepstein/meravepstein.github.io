@@ -1,5 +1,37 @@
 ---
 import Layout from "../layouts/Layout.astro";
+const videos = [
+  "https://www.youtube-nocookie.com/embed/BAM9-PjMxtc?si=AV5i-I8-E2xUngD",
+  "https://www.youtube-nocookie.com/embed/WKeiZc6ezaM?si=okSw7xjuG65CTxZy",
+  "https://player.vimeo.com/video/525333355",
+  "https://player.vimeo.com/video/313880189",
+  "https://player.vimeo.com/video/524104433",
+  "https://player.vimeo.com/video/523307552",
+  "https://player.vimeo.com/video/524105799",
+  "/src/assets/animation/6. Train Theatre.gif",
+  "/src/assets/animation/7. Walk Cycle 1.gif",
+  "/src/assets/animation/8. Walk Cycle 2.gif",
+  "https://player.vimeo.com/video/524107185",
+  "https://player.vimeo.com/video/524107303",
+  "https://player.vimeo.com/video/524108174",
+  "https://player.vimeo.com/video/265269744",
+  "https://player.vimeo.com/video/304859506",
+  "https://player.vimeo.com/video/316322138",
+];
 ---
 
-<Layout />
+<Layout>
+  <div class="flex flex-col items-center justify-center gap-4 py-6 mx-auto">
+    {
+      videos.map((video) =>
+        video.includes(".gif") ? (
+          <img src={`${video}`} class="h-auto w-1/2" />
+        ) : (
+          <div class="aspect-video w-1/2">
+            <iframe src={`${video}`} class="w-full h-full" />
+          </div>
+        )
+      )
+    }
+  </div>
+</Layout>

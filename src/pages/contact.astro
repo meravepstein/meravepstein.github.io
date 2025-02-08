@@ -1,5 +1,37 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import ContactImage from "../assets/contact_img.png";
+import InstagramImage from "../assets/instagram.png";
+import MailImage from "../assets/mail.png";
 ---
 
-<Layout />
+<Layout>
+  <div class="flex flex-col items-center">
+    <Image
+      src={ContactImage}
+      alt="Charicature of Merav"
+      class="max-w-full h-auto p-8"
+    />
+    <div class="flex flex-row items-center">
+      <Image
+        src={MailImage}
+        alt="Image of email"
+        class="w-16 h-auto align-middle"
+      />
+      <a href="mailto:mrvpstn@gmail.com" class="inline-block"
+        >mrvpstn@gmail.com</a
+      >
+    </div>
+    <div class="flex flex-row items-center">
+      <Image
+        src={InstagramImage}
+        alt="Image of Instagram"
+        class="w-16 h-auto align-middle"
+      />
+      <a href="https://www.instagram.com/animerav" class="inline-block"
+        >@animerav</a
+      >
+    </div>
+  </div>
+</Layout>

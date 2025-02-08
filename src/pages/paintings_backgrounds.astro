@@ -1,5 +1,33 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+
+let images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/paintings:backgrounds/*.png"
+);
+
+const resolvedImages = await Promise.all(
+  Object.values(images).map((image) => image().then((mod) => mod.default))
+);
 ---
 
-<Layout />
+<Layout>
+  <div class="mx-auto p-8 sm:columns-1 md:columns-2 lg:columns-3">
+    {
+      resolvedImages.map((image) => (
+        <Image
+          src={image}
+          alt={image.src.substring(
+            image.src.lastIndexOf("/") + 2,
+            image.src.indexOf(".png")
+          )}
+          quality={50}
+          format="png"
+          class="rounded-sm mb-4 border border-transparent hover:border-gray-300 transition-all duration-300 ease-in-out hover:shadow-lg"
+          loading="lazy"
+          data-paintings-backgrounds-image
+        />
+      ))
+    }
+  </div>
+</Layout>

@@ -1,5 +1,179 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import { datetimeRegex } from "astro:schema";
+import CaretLeft from "phosphor-astro/CaretLeft.astro";
+import CaretRight from "phosphor-astro/CaretRight.astro";
+
+let images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/storyboarding/pair/*.png"
+);
+
+const pairImages = await Promise.all(
+  Object.values(images).map((image) => image().then((mod) => mod.default))
+);
+
+pairImages.sort(
+  (a, b) =>
+    Number(a.src.slice(a.src.lastIndexOf("/") + 1, a.src.indexOf("."))) -
+    Number(b.src.slice(b.src.lastIndexOf("/") + 1, b.src.indexOf(".")))
+);
+
+images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/storyboarding/cumbersome diamond/*.png"
+);
+
+const cumbersomeDiamondImages = await Promise.all(
+  Object.values(images).map((image) => image().then((mod) => mod.default))
+);
+
+cumbersomeDiamondImages.sort(
+  (a, b) =>
+    Number(a.src.slice(a.src.lastIndexOf("/") + 1, a.src.indexOf("."))) -
+    Number(b.src.slice(b.src.lastIndexOf("/") + 1, b.src.indexOf(".")))
+);
+
+function sortDiamondImages(a: ImageMetadata, b: ImageMetadata) {
+  const aIndex = Number.parseInt(
+    a.src.slice(a.src.lastIndexOf("/") + 1, a.src.indexOf("."))
+  );
+  const bIndex = Number.parseInt(
+    a.src.slice(b.src.lastIndexOf("/") + 1, b.src.indexOf("."))
+  );
+  if (aIndex > bIndex) return 1;
+  return -1;
+}
+
+let navArrowsSize = 125;
 ---
 
-<Layout />
+<Layout>
+  <div class="relative flex flex-col">
+    <div class="max-w-5xl mx-auto">
+      {
+        pairImages.map((image) => (
+          <Image
+            src={image}
+            alt="Image from pair images group"
+            quality={50}
+            format="png"
+            loading="eager"
+            class="hidden ease-in-out duration-200 pair"
+          />
+        ))
+      }
+      <div class="flex items-center justify-center">
+        <button type="button" data-pair-prev>
+          <CaretLeft
+            class="relative top-1/2 w-auto -mt-7 p-9 ease-in-out duration-100 hover:scale-125"
+            width={navArrowsSize}
+            height={navArrowsSize}
+          />
+        </button>
+        <button type="button" data-pair-next>
+          <CaretRight
+            class="relative top-1/2 w-auto -mt-7 p-9 ease-in-out duration-100 hover:scale-125"
+            width={navArrowsSize}
+            height={navArrowsSize}
+          />
+        </button>
+      </div>
+    </div>
+    <div class="max-w-5xl mx-auto">
+      {
+        cumbersomeDiamondImages.map((image) => (
+          <Image
+            src={image}
+            alt={`Image ${image.src.slice(image.src.lastIndexOf("/") + 1, image.src.indexOf("."))}from cumbersome diamond images group`}
+            quality={50}
+            format="png"
+            loading="eager"
+            class="hidden ease-in-out duration-200 diamond"
+          />
+        ))
+      }
+      <div class="flex items-center justify-center">
+        <button type="button" data-diamond-prev>
+          <CaretLeft
+            class="relative top-1/2 w-auto -mt-7 p-9 ease-in-out duration-100 hover:scale-125"
+            width={navArrowsSize}
+            height={navArrowsSize}
+          />
+        </button>
+        <button type="button" data-diamond-next>
+          <CaretRight
+            class="relative top-1/2 w-auto -mt-7 p-9 ease-in-out duration-100 hover:scale-125"
+            width={navArrowsSize}
+            height={navArrowsSize}
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  let slideIndex1 = 1;
+  let slideIndex2 = 1;
+  showSlides1(1);
+  showSlides2(1);
+
+  function showSlides1(curSlide: number) {
+    let i;
+    let slides = document.getElementsByClassName(
+      "pair"
+    ) as HTMLCollectionOf<HTMLElement>;
+    if (curSlide > slides.length) {
+      slideIndex1 = 1;
+    }
+    if (curSlide < 1) {
+      slideIndex1 = slides.length;
+    }
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    slides[slideIndex1 - 1].style.display = "block";
+  }
+
+  let slides = document.getElementsByClassName(
+    "diamond"
+  ) as HTMLCollectionOf<HTMLElement>;
+  console.log(slides);
+
+  const pairPrev = document.querySelector(
+    "[data-pair-prev]"
+  ) as HTMLButtonElement;
+  const pairNext = document.querySelector(
+    "[data-pair-next]"
+  ) as HTMLButtonElement;
+
+  pairPrev!.addEventListener("click", () => showSlides1((slideIndex1 -= 1)));
+  pairNext!.addEventListener("click", () => showSlides1((slideIndex1 += 1)));
+
+  function showSlides2(curSlide: number) {
+    let i;
+    let slides = document.getElementsByClassName(
+      "diamond"
+    ) as HTMLCollectionOf<HTMLElement>;
+    if (curSlide > slides.length) {
+      slideIndex2 = 1;
+    }
+    if (curSlide < 1) {
+      slideIndex2 = slides.length;
+    }
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    slides[slideIndex2 - 1].style.display = "block";
+  }
+
+  const diamondPrev = document.querySelector(
+    "[data-diamond-prev]"
+  ) as HTMLButtonElement;
+  const diamondNext = document.querySelector(
+    "[data-diamond-next]"
+  ) as HTMLButtonElement;
+
+  diamondPrev!.addEventListener("click", () => showSlides2((slideIndex2 -= 1)));
+  diamondNext!.addEventListener("click", () => showSlides2((slideIndex2 += 1)));
+</script>

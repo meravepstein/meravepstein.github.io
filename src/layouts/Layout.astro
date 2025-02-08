@@ -7,13 +7,17 @@ import Navbar from "../components/Navbar.astro";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
     <meta name="generator" content={Astro.generator} />
-    <title>Astro Basics</title>
+    <title>Animerav</title>
   </head>
   <body>
-    <Navbar />
-    <slot />
+    <div class="flex">
+      <Navbar />
+      <main class="mx-auto h-screen w-screen">
+        <slot />
+      </main>
+    </div>
   </body>
 </html>
 

@@ -1,5 +1,23 @@
 ---
 import Layout from "../layouts/Layout.astro";
+const videos = [
+  "https://player.vimeo.com/video/523315880",
+  "https://player.vimeo.com/video/524108689",
+  "https://player.vimeo.com/video/523305324",
+  "https://player.vimeo.com/video/524109925",
+  "https://player.vimeo.com/video/524110268",
+  "https://player.vimeo.com/video/524110544",
+];
 ---
 
-<Layout />
+<Layout>
+  <div class="flex flex-col items-center justify-center gap-4 py-6 mx-auto">
+    {
+      videos.map((video) => (
+        <div class="aspect-video w-1/2">
+          <iframe src={`${video}`} class="w-full h-full" />
+        </div>
+      ))
+    }
+  </div>
+</Layout>
