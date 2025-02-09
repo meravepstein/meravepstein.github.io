@@ -6,7 +6,7 @@ let images = import.meta.glob<{ default: ImageMetadata }>(
   "/src/assets/sketchbook/*.png"
 );
 
-let resolvedImages = await Promise.all(
+let sketchbookImages = await Promise.all(
   Object.values(images).map((image) => image().then((mod) => mod.default))
 );
 ---
@@ -16,7 +16,7 @@ let resolvedImages = await Promise.all(
     class="abs mx-auto p-8 sm:columns-1 md:columns-2 lg:columns-3 max-sm:pt-24"
   >
     {
-      resolvedImages.map((image) => (
+      sketchbookImages.map((image) => (
         <Image
           src={image}
           alt={image.src.substring(
