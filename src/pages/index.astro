@@ -4,7 +4,7 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout pageTitle="about">
   <div
-    class="relative max-w-screen-md flex items-center justify-center text-center md:pt-60 mx-auto"
+    class="relative max-w-screen-md flex flex-col gap-4 items-center justify-center text-center pt-28 mx-auto"
   >
     <p>
       Merav Epstein (she/her) is currently working as a Production Coordinator
@@ -16,5 +16,13 @@ import Layout from "../layouts/Layout.astro";
       stained glass projects, and works on whatever other hobby she has most
       recently taken up.
     </p>
+    <div class="aspect-video w-full">
+      <iframe
+        src="https://player.vimeo.com/video/1055049794?badge=0&autopause=0&player_id=0&app_id=58479"
+        frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+        class="w-full h-full"
+        title="Demo Reel 2025"></iframe>
+    </div><script src="https://player.vimeo.com/api/player.js"></script>
   </div>
 </Layout>
