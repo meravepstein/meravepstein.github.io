@@ -9,11 +9,24 @@ let images = import.meta.glob<{ default: ImageMetadata }>(
 let stainedGlassImages = await Promise.all(
   Object.values(images).map((image) => image().then((mod) => mod.default))
 );
+
+stainedGlassImages.sort(
+  (a, b) =>
+    Number(a.src.slice(a.src.lastIndexOf("/") + 1, a.src.indexOf("."))) -
+    Number(b.src.slice(b.src.lastIndexOf("/") + 1, b.src.indexOf(".")))
+);
+
+for (let a of stainedGlassImages) {
+  //   console.log(
+  //     Number(a.src.slice(a.src.lastIndexOf("/") + 1, a.src.indexOf(".")))
+  //   );
+  console.log(a.src);
+}
 ---
 
 <Layout pageTitle="stained glass">
   <div
-    class="abs mx-auto p-8 sm:columns-1 md:columns-2 lg:columns-3 max-sm:pt-24"
+    class="abs mx-auto p-8 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 max-sm:pt-24"
   >
     {
       stainedGlassImages.map((image) => (
