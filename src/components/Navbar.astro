@@ -16,16 +16,16 @@ const { pageTitle } = Astro.props;
     <X id="close" class="cursor-pointer hidden" width={50} height={50} />
   </div>
   <div class="flex items-center justify-center mx-auto relative">
-    <img src={MeravGif.src} class="h-24 w-auto" />
+    <img src={MeravGif.src} class="max-h-56 w-auto" />
   </div>
 </div>
 <aside
   id="sideNav"
-  class="sticky top-0 h-full max-w-fit ml-4 text-center max-sm:hidden"
+  class="sticky top-0 h-full w-auto-lg ml-4 text-center max-sm:hidden"
 >
   <ul class="flex flex-col gap-1">
-    <li id="hero" class="list-none flex justify-center items-center">
-      <a href="/"><img src={MeravGif.src} class="h-48 w-auto" /></a>
+    <li id="hero" class="list-none flex justify-center items-center ml-12">
+      <a href="/"><img src={MeravGif.src} class="max-h-56 w-auto" /></a>
     </li>
     <li
       class:list={[
