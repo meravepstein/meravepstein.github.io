@@ -145,10 +145,6 @@ groupedEntries.forEach((entry, index) => {
         });
       }
 
-      card.addEventListener("mouseleave", () => {
-        updateGallery(0);
-      });
-
       prevBtn?.addEventListener("click", () => {
         const newIndex = (currentIndex - 1 + images.length) % images.length;
         updateGallery(newIndex);
