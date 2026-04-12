@@ -1,49 +1,39 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { Image } from "astro:assets";
-import CaretLeft from "phosphor-astro/CaretLeft.astro";
-import CaretRight from "phosphor-astro/CaretRight.astro";
 
 let images = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/storyboarding/pair/*.png"
+  "/src/assets/storyboarding/pair/*.png",
 );
+
+const sortByFilenameNumber = (a: ImageMetadata, b: ImageMetadata) => {
+  const extractNumber = (src: string) => {
+    // Get the filename part (e.g., "1.B8x9z.png")
+    const filename = src.split("/").pop() || "";
+    // Match the digits at the very beginning of the filename
+    const match = filename.match(/^(\d+)/);
+    return match ? parseInt(match[1], 10) : 0;
+  };
+
+  return extractNumber(a.src) - extractNumber(b.src);
+};
 
 const pairImages = await Promise.all(
-  Object.values(images).map((image) => image().then((mod) => mod.default))
+  Object.values(images).map((image) => image().then((mod) => mod.default)),
 );
+pairImages.sort(sortByFilenameNumber);
 
-pairImages.sort(
-  (a, b) =>
-    Number(a.src.slice(a.src.lastIndexOf("/") + 1, a.src.indexOf("."))) -
-    Number(b.src.slice(b.src.lastIndexOf("/") + 1, b.src.indexOf(".")))
-);
-
-images = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/storyboarding/cumbersome diamond/*.png"
+const diamondGlob = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/storyboarding/cumbersome diamond/*.png",
 );
 
 const cumbersomeDiamondImages = await Promise.all(
-  Object.values(images).map((image) => image().then((mod) => mod.default))
+  Object.values(diamondGlob).map((image) => image().then((mod) => mod.default)),
 );
 
-cumbersomeDiamondImages.sort(
-  (a, b) =>
-    Number(a.src.slice(a.src.lastIndexOf("/") + 1, a.src.indexOf("."))) -
-    Number(b.src.slice(b.src.lastIndexOf("/") + 1, b.src.indexOf(".")))
-);
+cumbersomeDiamondImages.sort(sortByFilenameNumber);
 
-function sortDiamondImages(a: ImageMetadata, b: ImageMetadata) {
-  const aIndex = Number.parseInt(
-    a.src.slice(a.src.lastIndexOf("/") + 1, a.src.indexOf("."))
-  );
-  const bIndex = Number.parseInt(
-    a.src.slice(b.src.lastIndexOf("/") + 1, b.src.indexOf("."))
-  );
-  if (aIndex > bIndex) return 1;
-  return -1;
-}
-
-let navArrowsSize = 125;
+const navArrowsSize = 40;
 ---
 
 <Layout pageTitle="storyboarding">
@@ -62,22 +52,41 @@ let navArrowsSize = 125;
         ))
       }
       <div class="flex items-center justify-center">
-        <button type="button" data-pair-prev>
-          <CaretLeft
-            class="relative top-1/2 w-auto -mt-7 p-9 ease-in-out duration-100 hover:scale-125"
+        <button
+          class="prev-btn bg-white/90 p-1 hover:bg-white shadow-sm border border-gray-200"
+          data-pair-prev
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
             width={navArrowsSize}
             height={navArrowsSize}
-          />
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <path
+              d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"
+            ></path>
+          </svg>
         </button>
-        <button type="button" data-pair-next>
-          <CaretRight
-            class="relative top-1/2 w-auto -mt-7 p-9 ease-in-out duration-100 hover:scale-125"
+        <button
+          class="next-btn bg-white/90 p-1 hover:bg-white shadow-sm border border-gray-200"
+          data-pair-next
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
             width={navArrowsSize}
             height={navArrowsSize}
-          />
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <path
+              d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L154.34,128,90.34,61.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"
+            ></path>
+          </svg>
         </button>
       </div>
     </div>
+    <br />
     <div class="max-w-5xl mx-auto">
       {
         cumbersomeDiamondImages.map((image) => (
@@ -92,19 +101,37 @@ let navArrowsSize = 125;
         ))
       }
       <div class="flex items-center justify-center">
-        <button type="button" data-diamond-prev>
-          <CaretLeft
-            class="relative top-1/2 w-auto -mt-7 p-9 ease-in-out duration-100 hover:scale-125"
+        <button
+          class="prev-btn bg-white/90 p-1 hover:bg-white shadow-sm border border-gray-200"
+          data-diamond-prev
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
             width={navArrowsSize}
             height={navArrowsSize}
-          />
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <path
+              d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"
+            ></path>
+          </svg>
         </button>
-        <button type="button" data-diamond-next>
-          <CaretRight
-            class="relative top-1/2 w-auto -mt-7 p-9 ease-in-out duration-100 hover:scale-125"
+        <button
+          class="next-btn bg-white/90 p-1 hover:bg-white shadow-sm border border-gray-200"
+          data-diamond-next
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
             width={navArrowsSize}
             height={navArrowsSize}
-          />
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <path
+              d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L154.34,128,90.34,61.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"
+            ></path>
+          </svg>
         </button>
       </div>
     </div>
@@ -120,7 +147,7 @@ let navArrowsSize = 125;
   function showSlides1(curSlide: number) {
     let i;
     let slides = document.getElementsByClassName(
-      "pair"
+      "pair",
     ) as HTMLCollectionOf<HTMLElement>;
     if (curSlide > slides.length) {
       slideIndex1 = 1;
@@ -135,15 +162,15 @@ let navArrowsSize = 125;
   }
 
   let slides = document.getElementsByClassName(
-    "diamond"
+    "diamond",
   ) as HTMLCollectionOf<HTMLElement>;
   console.log(slides);
 
   const pairPrev = document.querySelector(
-    "[data-pair-prev]"
+    "[data-pair-prev]",
   ) as HTMLButtonElement;
   const pairNext = document.querySelector(
-    "[data-pair-next]"
+    "[data-pair-next]",
   ) as HTMLButtonElement;
 
   pairPrev!.addEventListener("click", () => showSlides1((slideIndex1 -= 1)));
@@ -152,7 +179,7 @@ let navArrowsSize = 125;
   function showSlides2(curSlide: number) {
     let i;
     let slides = document.getElementsByClassName(
-      "diamond"
+      "diamond",
     ) as HTMLCollectionOf<HTMLElement>;
     if (curSlide > slides.length) {
       slideIndex2 = 1;
@@ -167,10 +194,10 @@ let navArrowsSize = 125;
   }
 
   const diamondPrev = document.querySelector(
-    "[data-diamond-prev]"
+    "[data-diamond-prev]",
   ) as HTMLButtonElement;
   const diamondNext = document.querySelector(
-    "[data-diamond-next]"
+    "[data-diamond-next]",
   ) as HTMLButtonElement;
 
   diamondPrev!.addEventListener("click", () => showSlides2((slideIndex2 -= 1)));

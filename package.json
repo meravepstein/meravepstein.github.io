@@ -13,7 +13,6 @@
     "@astrojs/svelte": "^7.2.5",
     "@astrojs/tailwind": "^5.1.5",
     "astro": "^5.18.1",
-    "phosphor-astro": "^2.1.0",
     "sharp": "^0.33.5",
     "svelte": "^5.55.3",
     "tailwindcss": "^3.4.19",

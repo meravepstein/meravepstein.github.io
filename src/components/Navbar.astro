@@ -1,7 +1,5 @@
 ---
 import MeravGif from "../assets/logo.gif";
-import List from "phosphor-astro/List.astro";
-import X from "phosphor-astro/X.astro";
 
 interface Props {
   pageTitle: string;
@@ -10,15 +8,32 @@ interface Props {
 const { pageTitle } = Astro.props;
 ---
 
-<div class="sm:hidden z-10 flex flex-row fixed bg-[#F9F9F9] w-screen">
+<div
+  class="sm:hidden z-10 flex flex-row fixed bg-[#F9F9F9] w-screen items-center px-4"
+>
   <div class="flex justify-center items-center">
-    <List id="open" class="cursor-pointer" width={50} height={50} />
-    <X id="close" class="cursor-pointer hidden" width={50} height={50} />
+    <!-- Animated Hamburger Button -->
+    <button
+      id="menuToggle"
+      class="relative w-12 h-12 flex flex-col justify-center items-center group cursor-pointer"
+      aria-label="Toggle Menu"
+    >
+      <span
+        class="line-top w-8 h-1 bg-black transition-all duration-300 ease-in-out mb-1.5"
+      ></span>
+      <span
+        class="line-mid w-8 h-1 bg-black transition-all duration-300 ease-in-out mb-1.5"
+      ></span>
+      <span
+        class="line-bot w-8 h-1 bg-black transition-all duration-300 ease-in-out"
+      ></span>
+    </button>
   </div>
   <div class="flex items-center justify-center mx-auto relative">
     <img src={MeravGif.src} class="max-h-56 w-auto" />
   </div>
 </div>
+
 <aside
   id="sideNav"
   class="sticky top-0 h-full w-auto-lg ml-4 text-center max-sm:hidden"
@@ -110,40 +125,44 @@ const { pageTitle } = Astro.props;
     >
       <a href="/contact/">CONTACT</a>
     </li>
-    <li class="list-none text-xl" }>
+    <li class="list-none text-xl">
       <a href="/CV.pdf">CV</a>
     </li>
   </ul>
 </aside>
 
 <script>
-  const openButton = document.querySelector("#open");
-  const closeButton = document.querySelector("#close");
+  const menuToggle = document.querySelector("#menuToggle");
+  const sideNav = document.querySelector("#sideNav");
+  const heroImage = document.querySelector("#hero");
 
-  openButton?.addEventListener("click", () => openNavbar());
-  closeButton?.addEventListener("click", () => closeNavbar());
+  menuToggle?.addEventListener("click", () => {
+    const isOpen = menuToggle.classList.toggle("is-active");
 
-  function openNavbar() {
-    const heroImage = document.querySelector("#hero");
-    heroImage?.classList.add("hidden");
-
-    const sideNav = document.querySelector("#sideNav");
-    sideNav?.classList.remove("max-sm:hidden");
-    sideNav?.classList.add("mt-24");
-
-    openButton?.classList.add("hidden");
-    closeButton?.classList.remove("hidden");
-  }
-
-  function closeNavbar() {
-    const heroImage = document.querySelector("#hero");
-    heroImage?.classList.remove("hidden");
-
-    const sideNav = document.querySelector("#sideNav");
-    sideNav?.classList.add("max-sm:hidden");
-    sideNav?.classList.remove("mt-24");
-
-    closeButton?.classList.add("hidden");
-    openButton?.classList.remove("hidden");
-  }
+    if (isOpen) {
+      // Open Logic
+      heroImage?.classList.add("hidden");
+      sideNav?.classList.remove("max-sm:hidden");
+      sideNav?.classList.add("mt-24");
+    } else {
+      // Close Logic
+      heroImage?.classList.remove("hidden");
+      sideNav?.classList.add("max-sm:hidden");
+      sideNav?.classList.remove("mt-24");
+    }
+  });
 </script>
+
+<style>
+  /* Transition Logic for the Hamburger to X */
+  .is-active .line-top {
+    transform: translateY(10px) rotate(45deg);
+  }
+  .is-active .line-mid {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  .is-active .line-bot {
+    transform: translateY(-10px) rotate(-45deg);
+  }
+</style>

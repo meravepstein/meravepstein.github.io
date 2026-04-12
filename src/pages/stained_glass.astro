@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import { Image } from "astro:assets";
 
+// Reverted to the colon path from your original code
 const images = import.meta.glob<{ default: ImageMetadata }>(
   "/src/assets/stained:glass/*.{png,gif}",
 );
@@ -23,145 +24,158 @@ const groupedImages = imageModules.reduce(
   },
   {} as Record<string, typeof imageModules>,
 );
+
+const groupedEntries = Object.entries(groupedImages);
+
+// Distribute items into 3 columns to maintain Left-to-Right order
+const columns: [string, any][][] = [[], [], []];
+groupedEntries.forEach((entry, index) => {
+  columns[index % 3].push(entry);
+});
 ---
 
 <Layout pageTitle="stained glass">
-  <div class="mx-auto p-8 sm:columns-1 md:columns-2 lg:columns-3">
+  <div class="mx-auto p-8 flex flex-row gap-6 items-start">
     {
-      Object.entries(groupedImages).map(([seriesId, group]) => (
-        <div
-          class="cursor-pointer flex items-center justify-center"
-          onclick={`openModal(${JSON.stringify(group)}, 0)`}
-        >
-          <Image
-            src={group[0].src}
-            alt="Stained glass"
-            class="mb-4 rounded-sm border border-transparent hover:border-gray-300 hover:shadow-lg transition-all duration-300 ease-in-out"
-          />
+      columns.map((column) => (
+        <div class="flex flex-col gap-6 flex-1">
+          {column.map(([seriesId, group]) => (
+            <div
+              /* Only add 'group' class if there is more than one image */
+              class:list={[
+                "gallery-card relative bg-white border border-transparent transition-all duration-300",
+                { "group hover:border-gray-200": group.length > 1 }
+              ]}
+              data-images={JSON.stringify(group.map((img) => img.src.src))}
+            >
+              <div class="relative overflow-hidden">
+                {/* Main Image */}
+                <Image
+                  src={group[0].src}
+                  alt="Stained glass"
+                  class="main-display-image w-full h-auto block hover:shadow-lg transition-all ease-in-out duration-150"
+                  loading="lazy"
+                />
+
+                {/* Hover Overlay - Only renders if group.length > 1 */}
+                {group.length > 1 && (
+                  <div class="absolute inset-0 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/10 to-transparent pointer-events-none">
+
+                    {/* Navigation Arrows */}
+                    <div class="flex justify-center gap-2 mb-2 pointer-events-auto">
+                      <button class="prev-btn bg-white/90 p-1 hover:bg-white shadow-sm border border-gray-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
+                          <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z" />
+                        </svg>
+                      </button>
+                      <button class="next-btn bg-white/90 p-1 hover:bg-white shadow-sm border border-gray-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
+                          {/* Uniform mirrored path */}
+                          <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L154.34,128,90.34,61.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z" />
+                        </svg>
+                      </button>
+                    </div>
+
+                    {/* Thumbnails Row */}
+                    <div class="thumbnail-container flex justify-center gap-1 p-2 bg-white/90 backdrop-blur-sm pointer-events-auto overflow-x-auto border-t border-gray-100">
+                      {group.map((img, idx) => (
+                        <div
+                          data-index={idx}
+                          class={`thumb-item w-10 h-10 flex-shrink-0 cursor-pointer border-b-2 transition-all ${idx === 0 ? "border-black" : "border-transparent opacity-60 hover:opacity-100"}`}
+                        >
+                          <Image src={img.src} alt="Stained glass" class="w-full h-full object-cover" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       ))
     }
   </div>
-
-  <!-- Modal with raw SVG icons -->
-  <div id="myModal" class="hidden fixed inset-0 z-50">
-    <!-- Background -->
-    <div class="absolute inset-0 bg-black/90" onclick="closeModal()"></div>
-
-    <!-- Content -->
-    <div
-      class="relative z-10 w-full h-full flex items-center justify-center pointer-events-none"
-    >
-      <!-- Close button -->
-      <button
-        id="closeBtn"
-        class="absolute top-5 right-5 text-white hover:text-gray-300 pointer-events-auto"
-        style="z-index: 9999;"
-      >
-        <!-- X icon SVG -->
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="48"
-          height="48"
-          fill="currentColor"
-          viewBox="0 0 256 256"
-        >
-          <path
-            d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
-          ></path>
-        </svg>
-      </button>
-
-      <!-- Previous button -->
-      <button
-        id="prevBtn"
-        class="absolute left-5 text-white hover:text-gray-300 pointer-events-auto"
-        style="z-index: 9999;"
-      >
-        <!-- CaretLeft icon SVG -->
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="48"
-          height="48"
-          fill="currentColor"
-          viewBox="0 0 256 256"
-        >
-          <path
-            d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"
-          ></path>
-        </svg>
-      </button>
-
-      <!-- Image container -->
-      <div id="modalImageContainer" class="pointer-events-auto"></div>
-
-      <!-- Next button -->
-      <button
-        id="nextBtn"
-        class="absolute right-5 text-white hover:text-gray-300 pointer-events-auto"
-        style="z-index: 9999;"
-      >
-        <!-- CaretRight icon SVG -->
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="48"
-          height="48"
-          fill="currentColor"
-          viewBox="0 0 256 256"
-        >
-          <path
-            d="M181.66,133.66l-80,80A8,8,0,0,1,90.34,202.34L154.34,128,90.34,61.66A8,8,0,0,1,101.66,50.34l80,80A8,8,0,0,1,181.66,133.66Z"
-          ></path>
-        </svg>
-      </button>
-    </div>
-  </div>
 </Layout>
 
+<style>
+  /* Hide scrollbar for thumbnail row */
+  .thumbnail-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .thumbnail-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Responsive adjustment: stack columns on mobile */
+  @media (max-width: 768px) {
+    .mx-auto {
+      flex-direction: column;
+    }
+  }
+</style>
+
 <script is:inline>
-  let currentGallery = [];
-  let currentIndex = 0;
+  // Use DOMContentLoaded to ensure elements exist before script runs
+  document.addEventListener("DOMContentLoaded", () => {
+    const cards = document.querySelectorAll(".gallery-card");
 
-  function openModal(group, index) {
-    currentGallery = group;
-    currentIndex = index;
-    updateModal();
-    document.getElementById("myModal").classList.remove("hidden");
-  }
+    cards.forEach((card) => {
+      const images = JSON.parse(card.dataset.images);
+      const mainImg = card.querySelector(".main-display-image");
+      const prevBtn = card.querySelector(".prev-btn");
+      const nextBtn = card.querySelector(".next-btn");
+      const thumbs = card.querySelectorAll(".thumb-item");
 
-  function updateModal() {
-    const container = document.getElementById("modalImageContainer");
-    container.innerHTML = `<img src="${currentGallery[currentIndex].src.src}" class="max-h-[80vh] max-w-[80vw] object-contain" />`;
-  }
+      let currentIndex = 0;
 
-  function closeModal() {
-    document.getElementById("myModal").classList.add("hidden");
-  }
+      function updateGallery(index) {
+        currentIndex = index;
+        if (mainImg) mainImg.src = images[currentIndex];
 
-  document.getElementById("prevBtn").addEventListener("click", (e) => {
-    e.stopPropagation();
-    currentIndex =
-      (currentIndex - 1 + currentGallery.length) % currentGallery.length;
-    updateModal();
-  });
+        thumbs.forEach((thumb, i) => {
+          if (i === currentIndex) {
+            thumb.classList.add("border-black");
+            thumb.classList.remove("border-transparent", "opacity-60");
+          } else {
+            thumb.classList.remove("border-black");
+            thumb.classList.add("border-transparent", "opacity-60");
+          }
+        });
+      }
 
-  document.getElementById("nextBtn").addEventListener("click", (e) => {
-    e.stopPropagation();
-    currentIndex = (currentIndex + 1) % currentGallery.length;
-    updateModal();
-  });
+      card.addEventListener("mouseleave", () => {
+        updateGallery(0);
+      });
 
-  document.getElementById("closeBtn").addEventListener("click", (e) => {
-    e.stopPropagation();
-    closeModal();
-  });
+      prevBtn?.addEventListener("click", () => {
+        const newIndex = (currentIndex - 1 + images.length) % images.length;
+        updateGallery(newIndex);
+      });
 
-  // Keyboard navigation
-  document.addEventListener("keydown", (e) => {
-    const modal = document.getElementById("myModal");
-    if (modal.classList.contains("hidden")) return;
-    if (e.key === "Escape") closeModal();
-    if (e.key === "ArrowLeft") document.getElementById("prevBtn").click();
-    if (e.key === "ArrowRight") document.getElementById("nextBtn").click();
+      nextBtn?.addEventListener("click", () => {
+        const newIndex = (currentIndex + 1) % images.length;
+        updateGallery(newIndex);
+      });
+
+      thumbs.forEach((thumb, i) => {
+        thumb.addEventListener("mouseenter", () => updateGallery(i));
+        thumb.addEventListener("click", () => updateGallery(i));
+      });
+    });
   });
 </script>
+
+<style>
+  .thumbnail-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .thumbnail-container::-webkit-scrollbar {
+    display: none;
+  }
+  .gallery-card {
+    break-inside: avoid;
+  }
+</style>
