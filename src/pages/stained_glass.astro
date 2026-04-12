@@ -55,7 +55,7 @@ groupedEntries.forEach((entry, index) => {
                   alt="Stained glass"
                   class="main-display-image w-full h-auto block hover:shadow-lg transition-all ease-in-out duration-150"
                   format="webp"
-                  quality={80}
+                  quality={50}
                   loading={rowIdx === 0 ? "eager" : "lazy"}
                 />
 
@@ -85,7 +85,7 @@ groupedEntries.forEach((entry, index) => {
                           data-index={idx}
                           class={`thumb-item w-10 h-10 flex-shrink-0 cursor-pointer border-b-2 transition-all ${idx === 0 ? "border-black" : "border-transparent opacity-60 hover:opacity-100"}`}
                         >
-                          <Image src={img.src} alt="Stained glass" class="w-full h-full object-cover" format="webp" quality={60} />
+                          <Image src={img.src} alt="Stained glass" class="w-full h-full object-cover" format="webp" quality={30} />
                         </div>
                       ))}
                     </div>
