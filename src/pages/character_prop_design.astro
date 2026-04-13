@@ -1,14 +1,17 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import sortByFilenameNumber from "../utils/sort";
 import { Image } from "astro:assets";
 
 let images = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/character:prop design/*.png"
+  "/src/assets/character:prop design/*.png",
 );
 
 let resolvedImages = await Promise.all(
-  Object.values(images).map((image) => image().then((mod) => mod.default))
+  Object.values(images).map((image) => image().then((mod) => mod.default)),
 );
+
+resolvedImages.sort(sortByFilenameNumber);
 ---
 
 <Layout pageTitle="character/prop design">
@@ -19,7 +22,7 @@ let resolvedImages = await Promise.all(
           src={image}
           alt={image.src.substring(
             image.src.lastIndexOf("/") + 2,
-            image.src.indexOf(".png")
+            image.src.indexOf(".png"),
           )}
           quality={50}
           format="png"

@@ -1,6 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
-const videos = [
+import { Image } from "astro:assets";
+import TrainTheatre from "../assets/animation/6. Train Theatre.gif";
+import WalkCycle1 from "../assets/animation/7. Walk Cycle 1.gif";
+import WalkCycle2 from "../assets/animation/8. Walk Cycle 2.gif";
+import { imageMetadata } from "astro/assets/utils";
+const videos: (string | ImageMetadata)[] = [
   "https://www.youtube-nocookie.com/embed/BAM9-PjMxtc?si=AV5i-I8-E2xUngD",
   "https://www.youtube-nocookie.com/embed/WKeiZc6ezaM?si=okSw7xjuG65CTxZy",
   "https://player.vimeo.com/video/525333355",
@@ -8,9 +13,9 @@ const videos = [
   "https://player.vimeo.com/video/524104433",
   "https://player.vimeo.com/video/523307552",
   "https://player.vimeo.com/video/524105799",
-  "../assets/animation/6. Train Theatre.gif",
-  "../assets/animation/7. Walk Cycle 1.gif",
-  "../assets/animation/8. Walk Cycle 2.gif",
+  TrainTheatre,
+  WalkCycle1,
+  WalkCycle2,
   "https://player.vimeo.com/video/524107185",
   "https://player.vimeo.com/video/524107303",
   "https://player.vimeo.com/video/524108174",
@@ -24,13 +29,19 @@ const videos = [
   <div class="flex flex-col items-center justify-center gap-4 py-6 mx-auto">
     {
       videos.map((video) =>
-        video.includes(".gif") ? (
-          <img src={`${video}`} class="h-auto w-1/2" />
+        typeof video !== "string" ? (
+          <Image
+            src={video}
+            alt="animation"
+            class="h-auto w-1/2"
+            quality={50}
+            loading="lazy"
+          />
         ) : (
           <div class="aspect-video w-1/2">
             <iframe src={`${video}`} class="w-full h-full" />
           </div>
-        )
+        ),
       )
     }
   </div>

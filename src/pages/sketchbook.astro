@@ -1,14 +1,17 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import sortByFilenameNumber from "../utils/sort";
 import { Image } from "astro:assets";
 
 let images = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/sketchbook/*.png"
+  "/src/assets/sketchbook/*.png",
 );
 
 let sketchbookImages = await Promise.all(
-  Object.values(images).map((image) => image().then((mod) => mod.default))
+  Object.values(images).map((image) => image().then((mod) => mod.default)),
 );
+
+sketchbookImages.sort(sortByFilenameNumber);
 ---
 
 <Layout pageTitle="sketchbook">
@@ -21,10 +24,10 @@ let sketchbookImages = await Promise.all(
           src={image}
           alt={image.src.substring(
             image.src.lastIndexOf("/") + 2,
-            image.src.indexOf(".png")
+            image.src.indexOf(".png"),
           )}
           quality={50}
-          format="png"
+          format="webp"
           class="rounded-sm mb-4 border border-transparent hover:border-gray-300 transition-all duration-300 ease-in-out hover:shadow-lg"
           loading="lazy"
           data-character-prop-design-image

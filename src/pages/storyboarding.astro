@@ -1,22 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import sortByFilenameNumber from "../utils/sort";
 import { Image } from "astro:assets";
 
 let images = import.meta.glob<{ default: ImageMetadata }>(
   "/src/assets/storyboarding/pair/*.png",
 );
-
-const sortByFilenameNumber = (a: ImageMetadata, b: ImageMetadata) => {
-  const extractNumber = (src: string) => {
-    // Get the filename part (e.g., "1.B8x9z.png")
-    const filename = src.split("/").pop() || "";
-    // Match the digits at the very beginning of the filename
-    const match = filename.match(/^(\d+)/);
-    return match ? parseInt(match[1], 10) : 0;
-  };
-
-  return extractNumber(a.src) - extractNumber(b.src);
-};
 
 const pairImages = await Promise.all(
   Object.values(images).map((image) => image().then((mod) => mod.default)),
@@ -45,7 +34,7 @@ const navArrowsSize = 40;
             src={image}
             alt="Image from pair images group"
             quality={50}
-            format="png"
+            format="webp"
             loading="eager"
             class="hidden ease-in-out duration-200 pair"
           />
@@ -94,7 +83,7 @@ const navArrowsSize = 40;
             src={image}
             alt={`Image ${image.src.slice(image.src.lastIndexOf("/") + 1, image.src.indexOf("."))}from cumbersome diamond images group`}
             quality={50}
-            format="png"
+            format="webp"
             loading="eager"
             class="hidden ease-in-out duration-200 diamond"
           />
