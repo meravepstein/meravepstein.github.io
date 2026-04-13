@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import sortByFilenameNumber from "../utils/sort";
+import { sortByFilenameNumber } from "../utils/sort";
 import { Image } from "astro:assets";
 
 let images = import.meta.glob<{ default: ImageMetadata }>(
