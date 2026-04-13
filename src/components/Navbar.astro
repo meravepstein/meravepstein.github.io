@@ -9,13 +9,12 @@ const { pageTitle } = Astro.props;
 ---
 
 <div
-  class="sm:hidden z-10 flex flex-row fixed bg-[#F9F9F9] w-screen items-center px-4"
+  class="sm:hidden z-[60] flex flex-row fixed top-0 left-0 bg-[#F9F9F9] w-screen items-center px-4 h-20"
 >
   <div class="flex justify-center items-center">
-    <!-- Animated Hamburger Button -->
     <button
       id="menuToggle"
-      class="relative w-12 h-12 flex flex-col justify-center items-center group cursor-pointer"
+      class="relative z-[70] w-12 h-12 flex flex-col justify-center items-center group cursor-pointer"
       aria-label="Toggle Menu"
     >
       <span
@@ -29,132 +28,106 @@ const { pageTitle } = Astro.props;
       ></span>
     </button>
   </div>
-  <div class="flex items-center justify-center mx-auto relative">
-    <img src={MeravGif.src} class="max-h-56 w-auto" />
+  <div class="flex items-center justify-center mx-auto">
+    <img src={MeravGif.src} class="max-h-16 w-auto" />
   </div>
 </div>
 
 <aside
   id="sideNav"
-  class="sticky top-0 h-full w-auto-lg ml-4 text-center max-sm:hidden"
+  class="fixed inset-y-0 left-0 z-50 w-full bg-[#F9F9F9] transform -translate-x-full transition-transform duration-300 ease-in-out
+         sm:translate-x-0 sm:static sm:w-auto sm:h-full sm:ml-4 sm:bg-transparent overflow-y-auto"
 >
-  <ul class="flex flex-col gap-1">
-    <li id="hero" class="list-none flex justify-center items-center ml-12">
-      <a href="/"><img src={MeravGif.src} class="max-h-56 w-auto" /></a>
-    </li>
-    <li
-      class:list={[
-        { "font-bold": pageTitle === "animation" },
-        "list-none",
-        "text-xl",
-      ]}
-    >
-      <a href="/animation/">ANIMATION</a>
-    </li>
-    <li
-      class:list={[
-        { "font-bold": pageTitle === "editing" },
-        "list-none",
-        "text-xl",
-      ]}
-    >
-      <a href="/editing/">EDITING</a>
-    </li>
-    <li
-      class:list={[
-        { "font-bold": pageTitle === "storyboarding" },
-        "list-none",
-        "text-xl",
-      ]}
-    >
-      <a href="/storyboarding/">STORYBOARDING</a>
-    </li>
-    <li
-      class:list={[
-        { "font-bold": pageTitle === "character/prop design" },
-        "list-none",
-        "text-xl",
-      ]}
-    >
-      <a href="/character_prop_design/">CHARACTER/PROP DESIGN</a>
-    </li>
-    <li
-      class:list={[
-        { "font-bold": pageTitle === "paintings & backgrounds" },
-        "list-none",
-        "text-xl",
-      ]}
-    >
-      <a href="/paintings_backgrounds/">PAINTINGS & BACKGROUNDS</a>
-    </li>
-    <li
-      class:list={[
-        { "font-bold": pageTitle === "sketchbook" },
-        "list-none",
-        "text-xl",
-      ]}
-    >
-      <a href="/sketchbook/">SKETCHBOOK</a>
-    </li>
-    <li
-      class:list={[
-        { "font-bold": pageTitle === "stained glass" },
-        "list-none",
-        "text-xl",
-      ]}
-    >
-      <a href="/stained_glass/">STAINED GLASS</a>
-    </li>
-    <br />
-    <br />
-    <li
-      class:list={[
-        { "font-bold": pageTitle === "about" },
-        "list-none",
-        "text-xl",
-      ]}
-    >
-      <a href="/">ABOUT</a>
-    </li>
-    <li
-      class:list={[
-        { "font-bold": pageTitle === "contact" },
-        "list-none",
-        "text-xl",
-      ]}
-    >
-      <a href="/contact/">CONTACT</a>
-    </li>
-    <li class="list-none text-xl">
-      <a href="/CV.pdf">CV</a>
-    </li>
+  <ul
+    class="flex flex-col gap-1 text-center pt-24 sm:pt-0 justify-between min-h-screen py-20"
+  >
+    <div class="flex flex-col gap-1">
+      <li id="hero" class="list-none flex justify-center items-center sm:ml-12">
+        <a href="/"><img src={MeravGif.src} class="max-h-56 w-auto" /></a>
+      </li>
+
+      {
+        [
+          { title: "ANIMATION", path: "/animation/", key: "animation" },
+          { title: "EDITING", path: "/editing/", key: "editing" },
+          {
+            title: "STORYBOARDING",
+            path: "/storyboarding/",
+            key: "storyboarding",
+          },
+          {
+            title: "CHARACTER/PROP DESIGN",
+            path: "/character_prop_design/",
+            key: "character/prop design",
+          },
+          {
+            title: "PAINTINGS & BACKGROUNDS",
+            path: "/paintings_backgrounds/",
+            key: "paintings & backgrounds",
+          },
+          { title: "SKETCHBOOK", path: "/sketchbook/", key: "sketchbook" },
+          {
+            title: "STAINED GLASS",
+            path: "/stained_glass/",
+            key: "stained_glass",
+          },
+        ].map((link) => (
+          <li
+            class:list={[
+              { "font-bold underline": pageTitle === link.key },
+              "list-none text-xl py-2 sm:py-0",
+            ]}
+          >
+            <a href={link.path}>{link.title}</a>
+          </li>
+        ))
+      }
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <li
+        class:list={[
+          { "font-bold underline": pageTitle === "about" },
+          "list-none text-xl py-2 sm:py-0",
+        ]}
+      >
+        <a href="/">ABOUT</a>
+      </li>
+      <li
+        class:list={[
+          { "font-bold underline": pageTitle === "contact" },
+          "list-none text-xl py-2 sm:py-0",
+        ]}
+      >
+        <a href="/contact/">CONTACT</a>
+      </li>
+      <li class="list-none text-xl py-2 sm:py-0">
+        <a href="/CV.pdf">CV</a>
+      </li>
+    </div>
   </ul>
 </aside>
 
 <script>
   const menuToggle = document.querySelector("#menuToggle");
   const sideNav = document.querySelector("#sideNav");
-  const heroImage = document.querySelector("#hero");
 
   menuToggle?.addEventListener("click", () => {
-    const isOpen = menuToggle.classList.toggle("is-active");
+    const isActive = menuToggle.classList.toggle("is-active");
 
-    if (isOpen) {
-      // Open Logic
-      heroImage?.classList.add("hidden");
-      sideNav?.classList.remove("max-sm:hidden");
-      sideNav?.classList.add("mt-24");
+    if (isActive) {
+      sideNav?.classList.remove("-translate-x-full");
+      // Prevent body scroll when menu is open
+      document.body.style.overflow = "hidden";
     } else {
-      // Close Logic
-      heroImage?.classList.remove("hidden");
-      sideNav?.classList.add("max-sm:hidden");
-      sideNav?.classList.remove("mt-24");
+      sideNav?.classList.add("-translate-x-full");
+      document.body.style.overflow = "";
     }
   });
 </script>
 
 <style>
-  /* Transition Logic for the Hamburger to X */
+  /* Hamburger Animation */
   .is-active .line-top {
     transform: translateY(10px) rotate(45deg);
   }
