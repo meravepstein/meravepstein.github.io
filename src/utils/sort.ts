@@ -1,4 +1,4 @@
-const sortByFilenameNumber = (a: ImageMetadata, b: ImageMetadata) => {
+export default function sortByFilenameNumber(a: ImageMetadata, b: ImageMetadata): number {
   const extractNumber = (src: string) => {
     // Get the filename part (e.g., "1.B8x9z.png")
     const filename = src.split("/").pop() || "";
